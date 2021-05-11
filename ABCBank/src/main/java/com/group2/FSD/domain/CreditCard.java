@@ -9,6 +9,11 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 @Entity
 @Table(name = "credit_card")
 public class CreditCard {
@@ -18,15 +23,11 @@ public class CreditCard {
 	private Long creditId;
 	private Long creditCardNum;
 	private Date validity;
-	
-
-	
-	public CreditCard() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
 	public Long getCreditId() {
 		return creditId;
+	}
+	public void setCreditId(Long creditId) {
+		this.creditId = creditId;
 	}
 	public Long getCreditCardNum() {
 		return creditCardNum;
@@ -40,10 +41,6 @@ public class CreditCard {
 	public void setValidity(Date validity) {
 		this.validity = validity;
 	}
-
-	@Override
-	public String toString() {
-		return "CreditCard [creditId=" + creditId + ", creditCardNum=" + creditCardNum + ", validity=" + validity + "]";
-	}
 	
+
 }

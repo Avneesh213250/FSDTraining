@@ -11,10 +11,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.group2.FSD.Service.SalseService;
 import com.group2.FSD.domain.Sales;
+import com.group2.FSD.domain.StudentDetails;
+import com.group2.FSD.microservice.FeignClientMicro;
 
 @RestController
 @CrossOrigin
@@ -23,9 +25,17 @@ public class SalesController {
 	@Autowired
 	SalseService salseService;
 	
+	@Autowired
+	FeignClientMicro feignClient;
+	
 	@GetMapping("getSalesEntryById/{id}")
 	public ResponseEntity<Sales> getSalesEntryById(@PathVariable Integer id) {
 		return ResponseEntity.ok(salseService.findById(id));
+	}
+	
+	@GetMapping("microserviceTest/{id}")
+	public ResponseEntity<StudentDetails> getStudentDetailsById(@PathVariable Integer id) {
+		return feignClient.getStudentDetailsById(id);
 	}
 	
 	@PostMapping("/saveSalesEntry")
@@ -56,4 +66,9 @@ public class SalesController {
 		return salseService.findByOfficerid(officerid);
 	}
 	
+	@PostMapping("/testPostArray")
+	public String test1(@RequestParam("test") List<Integer> test) {
+		System.out.println(test);
+		return "good";
+	}
 }
