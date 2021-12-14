@@ -25,9 +25,18 @@ public class StudentDetails {
 	private String emailId;
 	
 	
-	public StudentDetails() {
+	
+	public StudentDetails(Integer id, String firstName, String lastName, String usn, String branch,
+			String marksObtainsOutOf, String mobileNumber, String emailId) {
 		super();
-		// TODO Auto-generated constructor stub
+		this.id = id;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.usn = usn;
+		this.branch = branch;
+		this.marksObtainsOutOf = marksObtainsOutOf;
+		this.mobileNumber = mobileNumber;
+		this.emailId = emailId;
 	}
 	public Integer getId() {
 		return id;

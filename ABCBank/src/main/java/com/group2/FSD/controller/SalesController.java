@@ -1,6 +1,7 @@
 package com.group2.FSD.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +17,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.group2.FSD.Service.SalseService;
 import com.group2.FSD.domain.Sales;
 import com.group2.FSD.domain.StudentDetails;
+import com.group2.FSD.microservice.FeignClientCOVID;
 import com.group2.FSD.microservice.FeignClientMicro;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 
 @RestController
 @CrossOrigin
@@ -28,12 +32,21 @@ public class SalesController {
 	@Autowired
 	FeignClientMicro feignClient;
 	
+	@Autowired
+	FeignClientCOVID feignClientCovid;
+	
 	@GetMapping("getSalesEntryById/{id}")
 	public ResponseEntity<Sales> getSalesEntryById(@PathVariable Integer id) {
 		return ResponseEntity.ok(salseService.findById(id));
 	}
 	
 	@GetMapping("microserviceTest/{id}")
+	@HystrixCommand(fallbackMethod = "getFallBack",
+	threadPoolKey = "studentpool",
+	threadPoolProperties = {
+			@HystrixProperty(name="coreSize", value="20"),
+			@HystrixProperty(name="maxQueueSize", value="10")
+	})
 	public ResponseEntity<StudentDetails> getStudentDetailsById(@PathVariable Integer id) {
 		return feignClient.getStudentDetailsById(id);
 	}
@@ -61,6 +74,11 @@ public class SalesController {
 		return salseService.findAll();
 	}
 	
+	@GetMapping("/getCovid")
+	public ResponseEntity<Optional> getAllCovid(){
+		return feignClientCovid.getCOVIDData();
+	}
+	
 	@GetMapping("getByOfficerId/{officerid}")
 	public List<Sales> getByOfficerId(@PathVariable Integer officerid){
 		return salseService.findByOfficerid(officerid);
@@ -70,5 +88,10 @@ public class SalesController {
 	public String test1(@RequestParam("test") List<Integer> test) {
 		System.out.println(test);
 		return "good";
+	}
+	public ResponseEntity<StudentDetails> getFallBack(@PathVariable Integer id){
+		StudentDetails student= new StudentDetails(221, "Avneesh", "Shrivsatav", "Test", "Test2", "Jaunpur", "988933145", "af@hgd.ion");
+		ResponseEntity<StudentDetails> responseEntity= ResponseEntity.ok(student);
+		return responseEntity;
 	}
 }

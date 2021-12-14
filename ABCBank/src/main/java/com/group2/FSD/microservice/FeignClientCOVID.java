@@ -1,5 +1,7 @@
 package com.group2.FSD.microservice;
 
+import java.util.Optional;
+
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,11 +11,10 @@ import com.group2.FSD.domain.StudentDetails;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 
 
-@FeignClient("studentdata")
-public interface FeignClientMicro {
+@FeignClient(name="covid19india", url = "https://data.covid19india.org/v4/min/data.min.json")
+public interface FeignClientCOVID {
 
-	@GetMapping("getStudentDetailsById/{id}")
-	public ResponseEntity<StudentDetails> getStudentDetailsById(@PathVariable Integer id);
-	
+	@GetMapping("")
+	public ResponseEntity<Optional> getCOVIDData();
 	
 }
