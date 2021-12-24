@@ -18,7 +18,7 @@ import com.group2.FSD.domain.User;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/api")
+//@RequestMapping("/api")
 public class LoginController {
 	 
 		@Autowired

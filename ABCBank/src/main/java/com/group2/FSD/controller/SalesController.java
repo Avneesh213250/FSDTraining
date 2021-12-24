@@ -25,7 +25,7 @@ import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/api")
+//@RequestMapping("/api")
 public class SalesController {
     
 	@Autowired

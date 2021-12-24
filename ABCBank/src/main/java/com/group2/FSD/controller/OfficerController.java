@@ -20,7 +20,7 @@ import com.group2.FSD.Service.OfficerService;
 import com.group2.FSD.domain.Officer;
 
 @RestController
-@RequestMapping("/api")
+//@RequestMapping("/api")
 public class OfficerController {
 	
 		@Autowired
